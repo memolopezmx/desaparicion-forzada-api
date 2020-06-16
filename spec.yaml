@@ -1,0 +1,189 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Bussa
+  description: API para la aplicación Bussa
+host: www.bussa.com
+schemes:
+  - https
+basePath: /api
+
+security:
+  - basicAuth: []
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+
+paths:
+  /usuarios:
+    post:
+      summary: Alta de usuario
+      parameters:
+        - in: body
+          name: Datos de entrada del usuario
+          required: false
+          schema:
+            $ref: "#/definitions/usuario"  
+      responses:
+          200:
+            description: Creacion exitosa de un usuario
+            schema:
+                $ref: "#/definitions/usuarioResponse"
+    get:
+      summary: Lista de usuarios
+      responses:
+          200:
+            description: Consulta exitosa de un cliente
+            schema:
+                $ref: "#/definitions/usuarioLista"
+  /usuarios/{id}:
+    get:
+      summary: Consultar un usuario
+      parameters:
+        - $ref: '#/parameters/entityId'
+      responses:
+          200:
+            description: Consulta exitosa de un cliente
+            schema:
+                $ref: "#/definitions/usuarioWithID"
+    put:
+      summary: Actualizar un usuario
+      parameters:
+        - $ref: '#/parameters/entityId'
+      responses:
+          200:
+            description: Consulta exitosa de un cliente
+            schema:
+                $ref: "#/definitions/usuarioWithID"
+    delete:
+      summary: Borrar un usuario
+      parameters:
+        - $ref: '#/parameters/entityId'
+      responses:
+        204:
+          description: No Content
+      
+definitions:
+  usuario:
+    type: object
+    properties:
+      nombre:
+        type: string
+        description: Nombre del usuario
+        example: "David"
+      paterno:
+        type: string
+        description: Apellido Paterno
+        example: "López"
+      materno:
+        type: string
+        description: Apellido Materno
+        example: "Alonso"
+      edad:
+        type: string
+        description: Edad actual del usuario
+        example: "27"
+      email:
+        type: string
+        description: Correo electronico mas reciente
+        example: "david.lopez@gmail.com"
+      password:
+        description: Contrasena del usuario
+        type: string
+        format: password
+        example: "*****"
+      direccion:
+        type: string
+        description: Direccion del domicilio actual del usuario
+        example: "calle 4 sur 104, Puebla, Puebla."
+      codigoPostal:
+        type: string
+        description: Codigo postal del domicilio actual
+        example: "72000"
+      sexo:
+        type: string
+        description: Sexo del usuario
+        example: "M"
+      tipoUsuario:
+        type: string
+        description: Usuario objetivo u observador
+        example: "T"
+        
+  usuarioWithID:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Identificador del usuario
+        example: 1000
+      nombre:
+        type: string
+        description: Nombre del usuario
+        example: "David"
+      paterno:
+        type: string
+        description: Apellido Paterno
+        example: "López"
+      materno:
+        type: string
+        description: Apellido Materno
+        example: "Alonso"
+      edad:
+        type: string
+        description: Edad actual del usuario
+        example: "27"
+      email:
+        type: string
+        description: Correo electronico mas reciente
+        example: "david.lopez@gmail.com"
+      password:
+        description: Contrasena del usuario
+        type: string
+        format: password
+        example: "*****"
+      direccion:
+        type: string
+        description: Direccion del domicilio actual del usuario
+        example: "calle 4 sur 104, Puebla, Puebla."
+      codigoPostal:
+        type: string
+        description: Codigo postal del domicilio actual
+        example: "72000"
+      sexo:
+        type: string
+        description: Sexo del usuario
+        example: "M"
+      tipoUsuario:
+        type: string
+        description: Usuario objetivo u observador
+        example: "T"
+        
+  usuarioResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        example: "success"
+      usuario:
+        type: object
+        description: Describe la creacion del cliente 
+        $ref: '#/definitions/usuarioWithID'
+
+  usuarioLista:
+    type: array
+    items:
+      $ref: '#/definitions/usuarioWithID'
+
+parameters:
+  entityId:
+    name: id
+    in: path
+    required: true
+    type: integer
+        
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: Basic HTTP authorization with _email_ and _password_
